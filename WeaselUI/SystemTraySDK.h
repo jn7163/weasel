@@ -119,7 +119,7 @@ public:
     UINT  GetCallbackMessage() const;
 
     HWND  GetSafeHwnd() const  { return (this)? m_hWnd : NULL; }
-    UINT_PTR GetTimerID() const   { return m_nTimerID; }
+    UINT  GetTimerID() const   { return m_nTimerID; }
 
 	// Static functions
 public:
@@ -175,7 +175,7 @@ protected:
 protected:
     static BOOL RemoveTaskbarIcon(HWND hWnd);
 
-    static const UINT_PTR m_nTimerID;
+    static const UINT m_nTimerID;
     static UINT  m_nMaxTooltipLength;
     static const UINT m_nTaskbarCreatedMsg;
     static HWND  m_hWndInvisible;

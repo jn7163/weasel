@@ -17,8 +17,9 @@ bool ResponseParser::operator() (LPWSTR buffer, UINT length)
 	while (bs.good())
 	{
 		getline(bs, line);
-		if (!bs.good())
+		if (!bs.good()) {
 			return false;
+        }
 
 		// file ends
 		if (line == L".")
@@ -26,6 +27,7 @@ bool ResponseParser::operator() (LPWSTR buffer, UINT length)
 		
 		Feed(line);
 	}
+
 	return bs.good();
 }
 

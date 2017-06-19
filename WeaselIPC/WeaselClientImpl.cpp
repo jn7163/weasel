@@ -196,11 +196,14 @@ bool ClientImpl::GetResponseData(ResponseHandler const& handler)
 	try
 	{
 		windows_shared_memory shm(open_only, WEASEL_IPC_SHARED_MEMORY, read_only);
-		mapped_region region(shm, read_only, WEASEL_IPC_METADATA_SIZE);
+        // must explict give offset and size, default size is zero, will raise exception `access denied`
+		mapped_region region(shm, read_only, WEASEL_IPC_METADATA_SIZE, WEASEL_IPC_BUFFER_SIZE);
+
 		return handler((LPWSTR)region.get_address(), WEASEL_IPC_BUFFER_LENGTH);
 	}
-	catch (interprocess_exception& /*ex*/)
+	catch (interprocess_exception& ex)
 	{
+        //char* ex.what();
 		return false;
 	}
 
@@ -213,7 +216,7 @@ bool ClientImpl::_WriteClientInfo()
 	try
 	{
 		windows_shared_memory shm(open_only, WEASEL_IPC_SHARED_MEMORY, read_write);
-		mapped_region region(shm, read_write, WEASEL_IPC_METADATA_SIZE);
+		mapped_region region(shm, read_write, WEASEL_IPC_METADATA_SIZE, WEASEL_IPC_BUFFER_SIZE);
 		buffer = (LPWSTR)region.get_address();
 		if (!buffer)
 		{
@@ -267,7 +270,8 @@ HWND ClientImpl::_GetServerWindow(LPCWSTR windowClass)
 
 Client::Client() 
 	: m_pImpl(new ClientImpl())
-{}
+{
+}
 
 Client::~Client()
 {

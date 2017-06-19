@@ -8,6 +8,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                        LPVOID lpReserved
 					 )
 {
+    OutputDebugString(L"weasel.ime DllMain");
 	WeaselIME::SetModuleInstance(hModule);
 
 	switch (ul_reason_for_call)

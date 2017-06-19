@@ -222,6 +222,7 @@ void WeaselIME::Cleanup()
 LRESULT WeaselIME::OnIMESelect(BOOL fSelect)
 {
 	EZDBGONLYLOGGERPRINT("On IME select: %d, HIMC = 0x%x", fSelect, m_hIMC);
+
 	ImmSetOpenStatus(m_hIMC, fSelect);
 	if (fSelect)
 	{
@@ -242,6 +243,7 @@ LRESULT WeaselIME::OnIMESelect(BOOL fSelect)
 LRESULT WeaselIME::OnIMEFocus(BOOL fFocus)
 {
 	EZDBGONLYLOGGERPRINT("On IME focus: %d, HIMC = 0x%x", fFocus, m_hIMC);
+
 	LPINPUTCONTEXT lpIMC = ImmLockIMC(m_hIMC);
 	if(!lpIMC)
 	{

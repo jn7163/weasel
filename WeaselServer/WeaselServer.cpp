@@ -8,7 +8,7 @@
 #include <WeaselUI.h>
 #include <RimeWithWeasel.h>
 #include <WeaselUtility.h>
-#include <winsparkle.h>
+//#include <winsparkle.h>
 #include <boost/lambda/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/scoped_ptr.hpp>
@@ -35,6 +35,7 @@ public:
 
 	static bool check_update()
 	{
+        /*
 		// when checked manually, show testing versions too
 		std::string feed_url = GetCustomResource("ManualUpdateFeedURL", "APPCAST");
 		if (!feed_url.empty())
@@ -42,6 +43,8 @@ public:
 			win_sparkle_set_appcast_url(feed_url.c_str());
 		}
 		win_sparkle_check_update_with_ui();
+		return true;
+        */
 		return true;
 	}
 
@@ -85,8 +88,8 @@ int WeaselServerApp::Run()
 		return -1;
 
 	//win_sparkle_set_appcast_url("http://localhost:8000/weasel/update/appcast.xml");
-	win_sparkle_set_registry_path("Software\\Rime\\Weasel\\Updates");
-	win_sparkle_init();
+	//win_sparkle_set_registry_path("Software\\Rime\\Weasel\\Updates");
+	//win_sparkle_init();
 	m_ui.Create(m_server.GetHWnd());
 	m_handler->Initialize();
 
@@ -94,7 +97,7 @@ int WeaselServerApp::Run()
 
 	m_handler->Finalize();
 	m_ui.Destroy();
-	win_sparkle_cleanup();
+	//win_sparkle_cleanup();
 
 	return ret;
 }

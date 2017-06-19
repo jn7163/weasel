@@ -465,6 +465,21 @@ static CWndClassInfo& GetWndClassInfo() \
   namespace ATL { HRESULT AtlGetCommCtrlVersion(LPDWORD pdwMajor, LPDWORD pdwMinor); };
 #endif
 
+#if (_ATL_VER >= 0x0B00)
+//@title backport newest code
+//@url https://github.com/rime/weasel/commit/ce325ad3d007f2aa24eca8eec924ee329f4ac0ec
+namespace ATL {
+    inline HRESULT AtlGetCommCtrlVersion(LPDWORD pdwMajor, LPDWORD pdwMinor) {
+        ATLASSERT(pdwMajor != NULL && pdwMinor != NULL);
+        if(pdwMajor == NULL || pdwMinor == NULL)
+          return E_INVALIDARG;
+        *pdwMajor = 6;
+        *pdwMinor = 0;
+        return S_OK;
+    }
+}
+#endif
+
 
 namespace WTL
 {
