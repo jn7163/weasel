@@ -8,10 +8,10 @@ app_options:
     ascii_mode: true
 
 style:
-  color_scheme: aqua
+  color_scheme: google 
   font_face: Microsoft YaHei
   font_point: 14
-  horizontal: false
+  horizontal: true
   fullscreen: false
   inline_preedit: false
   display_tray_icon: false
