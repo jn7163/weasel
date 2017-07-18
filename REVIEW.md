@@ -26,11 +26,55 @@ __Tips__
 
 If you change yaml, must kill `WeaselServer.exe` process by yourself.
 
+## boost IPC message format
+The user defined message is look like this:
+```
+#comment\n
+action=A,B,C,D\n
+commit=stringaaaa\n
+status.ascii_mode=\d+\n
+status.composing=\d+\n
+status.disabled=\d+\n
+ctx.preedit=\s+\n
+ctx.preedit.cursor=\d+,\d+\n
+.\n
+```
+
+`.\n` indicate message end.
+
+
+## WeaselIME
+The IME dll send Windows Message to WeaselIPCServer, expect boost message for reading.
+
+```cpp
+bool accepted = m_client.ProcessKeyEvent(ke);
+
+// get commit string from server
+wstring commit;
+weasel::Status status;
+weasel::ResponseParser parser(&commit, NULL, &status);
+bool ok = m_client.GetResponseData(boost::ref(parser));
+```
+
+this `ProcessKeyEvent` send message, and `GetResponseData` wait for response.
+the real `GetResponseData` implement in `WeaselIPC/WeaselIPCImpl.cpp`.
+
+
 
 ## RimeWithWeasel
-This is backend of weasel, and wrapped of `librime`
+This is backend of weasel, and wrapped of `librime`, the fellow interface is the main event entry of every inputs.
+WeaselUI show some candidate words.
 
-`BOOL RimeWithWeaselHandler::ProcessKeyEvent(weasel::KeyEvent keyEvent, UINT session_id, LPWSTR buffer)`
+```cpp
+BOOL RimeWithWeaselHandler::ProcessKeyEvent(weasel::KeyEvent keyEvent, UINT session_id, LPWSTR buffer)
+```
+
+`ProcessKeyEvent` call `RimeGetCommit` everytime it called.
+And commit string is store inside librime, then the WeaselIPCServer will send message to Client.
+the message buffer is `boost::interprocess::wbufferstream`.
+
+
+
 
 
 
